@@ -7,8 +7,8 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 User.create!(name:  "Hasan Erken",
              email: "he@rail.org",
-             password:              "foobar",
-             password_confirmation: "foobar",
+             password:              "sirena",
+             password_confirmation: "sirena",
              admin: true,
              activated: true,
              activated_at: Time.zone.now)
