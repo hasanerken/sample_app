@@ -10,7 +10,8 @@ class User < ApplicationRecord
   
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }
-
+  has_many :microposts, dependent: :destroy
+  
 # Returns the hash digest of the given string.
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
@@ -42,7 +43,7 @@ class User < ApplicationRecord
 
  # Activates an account.
   def activate
-    update_attribute(:activated,    true)
+    update_attribute(:activated, true)
     update_attribute(:activated_at, Time.zone.now)
   end
 
@@ -68,7 +69,11 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
-  private
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
+
+private
 # Converts email to all lower-case.
     def downcase_email
       self.email = email.downcase
